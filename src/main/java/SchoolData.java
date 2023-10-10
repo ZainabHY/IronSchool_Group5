@@ -5,9 +5,9 @@ public class SchoolData {
     // This class holds methods for details for all of:
     // Teachers , Students , Courses
 
-    public ArrayList<Teacher> teachersList;
-    public ArrayList<Course> coursesList;
-    public ArrayList<Student> studentsList;
+    public ArrayList<Teacher> teachersList = new ArrayList<>();
+    public ArrayList<Course> coursesList =  new ArrayList<>();
+    public ArrayList<Student> studentsList =  new ArrayList<>();
 
     Commands commands;
 
@@ -17,10 +17,11 @@ public class SchoolData {
     public void createTeachers()
     {
         Teacher teacher;
-        System.out.println("\u001B[33mLet's begin by Teachers\u001B[0m");
+        System.out.println("\n\u001B[33mLet's begin by Teachers\u001B[0m");
         // Asking user to enter num of teachers
         System.out.println("How many teacher you want to create? ");
         int teacherNum = scanner.nextInt();
+        scanner.nextLine();
 
         // Asking user to enter details of teachers
         System.out.println("Now please provide me with Teachers details");
@@ -39,6 +40,7 @@ public class SchoolData {
 
             System.out.print("Teacher Salary: ");
             double teacherSalary = scanner.nextDouble();
+            scanner.nextLine();
 
             teacher = new Teacher(teacherName, teacherSalary);
             teachersList.add(teacher);
@@ -52,11 +54,12 @@ public class SchoolData {
     {
         Course course;
 
-        System.out.println("\u001B[33mLet's move to courses.. \u001B[0m\n");
+        System.out.println("\n\u001B[33mLet's move to courses.. \u001B[0m\n");
 
         // Asking user to enter num of courses
         System.out.println("How many courses you want to create? ");
         int courseNum = scanner.nextInt();
+        scanner.nextLine();
 
         // Asking user to enter details of courses
         System.out.println("Now please provide me with Courses details");
@@ -75,6 +78,7 @@ public class SchoolData {
 
             System.out.print("Course Price: ");
             double coursePrice = scanner.nextDouble();
+            scanner.nextLine();
 
 //            System.out.print("Money Earned: ");
 //            double moneyEarned = scanner.nextDouble();
@@ -95,11 +99,12 @@ public class SchoolData {
     {
         Student student;
 
-        System.out.println("\u001B[33mLet's move to Students..\u001B[0m \n");
+        System.out.println("\n\u001B[33mLet's move to Students..\u001B[0m \n");
 
         // Asking user to enter num of students
         System.out.println("How many students you want to create? ");
         int studentNum = scanner.nextInt();
+        scanner.nextLine();
 
         // Asking user to enter details of students
         System.out.println("Now please provide me with Courses details");
@@ -122,11 +127,11 @@ public class SchoolData {
             System.out.print("Student Email: ");
             String studentEmail = scanner.nextLine();
 
-            System.out.print("Course Price: ");
-            Course course = scanner.nextLine();
+//            System.out.print("Course: ");
+//            Course course = scanner.nextLine();
 
             student = new Student(studentName, studentAddress, studentEmail);
-            studentsList.add(course);
+            studentsList.add(student);
 
             System.out.println("--------------------\n");
 
@@ -165,12 +170,29 @@ public class SchoolData {
 
             switch (choice)
             {
-                case 1: commands.assignTeacher();
+                case 1:
+                    System.out.println(">> To assign new teacher, you shall provide me with IDs of teacher and course");
+                    teacherIds();
+                    System.out.print("Teacher ID: ");
+                    String teacherIdAssign = scanner.nextLine();
+
+                    courseIds();
+                    System.out.print("Course ID: ");
+                    String courseIdAssign = scanner.nextLine();
+                    commands.assignTeacher(teacherIdAssign, courseIdAssign);
                     break;
+
                 case 2: commands.showTeachers();
                     break;
-                case 3: commands.lookUpTeacher();
+
+                case 3:
+                    System.out.println(">> To look up a teacher, please provide me with the teacher's ID");
+                    teacherIds();
+                    System.out.print("Teacher ID: ");
+                    String teacherIdLookUp = scanner.nextLine();
+                    commands.lookUpTeacher(teacherIdLookUp);
                     break;
+
                 case 4:
                     returnToMainMenu = true;
                     break;
@@ -211,16 +233,31 @@ public class SchoolData {
 
             switch (choice)
             {
-                case 1: commands.enrollStudent();
+                case 1:
+                    System.out.println(">> To enroll new student, please provide me with IDs of student and course");
+                    studentIds();
+                    System.out.print("Student ID: ");
+                    String studentIdEnroll = scanner.nextLine();
+
+                    courseIds();
+                    System.out.print("Course ID: ");
+                    String courseIdEnroll = scanner.nextLine();
+                    commands.enrollStudent(studentIdEnroll, courseIdEnroll);
                     break;
+
                 case 2: commands.showStudents();
                     break;
-                case 3: commands.lookUpStudent();
+
+                case 3:
+                    System.out.println(">> To look up a student, please provide me with the student's ID");
+                    studentIds();
+                    System.out.print("Student ID: ");
+                    String studentIdLookUp = scanner.nextLine();
+                    commands.lookUpStudent(studentIdLookUp);
                     break;
                 case 4:
                     returnToMainMenu = true;
                     break;
-
             }
         }
 
@@ -257,12 +294,25 @@ public class SchoolData {
 
             switch (choice)
             {
-                case 1: showCourses();
+                case 1: commands.showCourses();
                     break;
-                case 2: lookUpCourse();
+
+                case 2:
+                    System.out.println(">> To look up a course, please provide me with the course's ID");
+                    courseIds();
+                    System.out.print("Course ID: ");
+                    String courseIdLookUp = scanner.nextLine();
+                    commands.lookUpCourse(courseIdLookUp);
                     break;
-                case 3: showStudentByCourseID();
+
+                case 3:
+                    System.out.println(">> To show student by course ID, please provide me with the course ID");
+                    courseIds();
+                    System.out.print("Course ID: ");
+                    String studentShow_byCourseID = scanner.nextLine();
+                    commands.showStudentByCourseID(studentShow_byCourseID);
                     break;
+
                 case 4:
                     returnToMainMenu = true;
                     break;
@@ -316,6 +366,47 @@ public class SchoolData {
         }
 
         System.out.println("\n\u001B[33mReturning to the main menu...\u001B[0m");
+    }
+
+
+
+    // List of Teachers ids
+    public void teacherIds()
+    {
+        System.out.println("\u001B[35mTeachers IDs List\u001B[0m");
+        System.out.println("----------------");
+
+        for (int i = 0; i < teachersList.size(); i++)
+        {
+            System.out.println((i+1) + ". Teacher ID: " + teachersList.get(i).getTeacherId() +
+                    " | Teacher Name: " + teachersList.get(i).getName());
+        }
+    }
+
+    // List of Courses ids
+    public void courseIds()
+    {
+        System.out.println("\u001B[35m\nCourses IDs List\u001B[0m");
+        System.out.println("----------------");
+
+        for (int i = 0; i < coursesList.size(); i++)
+        {
+            System.out.println((i+1) + ". Course ID: " + coursesList.get(i).getCourseId() +
+                    " | Course Name: " + coursesList.get(i).getName());
+        }
+    }
+
+    // List of Students ids
+    public void studentIds()
+    {
+        System.out.println("\u001B[35m\nStudents IDs List\u001B[0m");
+        System.out.println("----------------");
+
+        for (int i = 0; i < studentsList.size(); i++)
+        {
+            System.out.println((i+1) + ". Student ID: " + studentsList.get(i).getStudentId() +
+                    " | Student Name: " + studentsList.get(i).getName());
+        }
     }
 
 }
