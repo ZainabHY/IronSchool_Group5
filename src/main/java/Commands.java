@@ -11,8 +11,8 @@ public class Commands {
     // ENROLL [STUDENT_ID] [COURSE_ID]
     public void enrollStudent(String studentId, String courseId)
     {
-        Student findStudent = student.findStudentById(studentId);
-        Course findCourse = course.findCourseById(courseId);
+        Student findStudent = student.findStudentById(studentId, schoolData);
+        Course findCourse = course.findCourseById(courseId, schoolData);
 
         if (findStudent == null) {
             System.out.println("Student with ID " + studentId + " not found.");
@@ -23,6 +23,12 @@ public class Commands {
             System.out.println("Course with ID " + courseId + " not found.");
             return;
         }
+
+        if (findStudent.getCourse() != null) {
+            System.out.println("Student " + findStudent.getName() + " is already enrolled in a course.");
+            return;
+        }
+
         findStudent.setCourse(findCourse);
         System.out.println("Course " + findCourse.getName() + " assigned to Student " + findStudent.getName());
 
@@ -32,8 +38,8 @@ public class Commands {
 
     // ASSIGN [TEACHER_ID] [COURSE_ID]
     public void assignTeacher(String teacherId, String courseId) {
-        Teacher findTeacher = teacher.findTeacherById(teacherId); // teacher.findTeacherById(teacherId)
-        Course findCourse = course.findCourseById(courseId); // course.findCourseById(courseId)
+        Teacher findTeacher = teacher.findTeacherById(teacherId , schoolData); // teacher.findTeacherById(teacherId)
+        Course findCourse = course.findCourseById(courseId, schoolData); // course.findCourseById(courseId)
 
         if (findTeacher == null) {
             System.out.println("Teacher with ID " + teacherId + " not found.");
@@ -73,17 +79,17 @@ public class Commands {
     // LOOKUP COURSE [COURSE_ID]
     public void lookUpCourse(String courseId)
     {
+        if (course == null) {
+            System.out.println("Course with ID " + courseId + " not found.");
+            return;
+        }
         for (Course course : schoolData.coursesList) {
             if (course.getCourseId().equals(courseId))
             {
                 System.out.print("Course with ID: " + course.getCourseId());
-
                 System.out.print("Course Name: " + course.getName());
-
                 System.out.print("Course Price: " + course.getPrice());
-
                 System.out.print("Money Earned: " + course.getMoneyEarned());
-
                 System.out.print("Teacher: " + course.getTeacher());
             }
         }
@@ -106,7 +112,12 @@ public class Commands {
 
 
     // LOOKUP STUDENT [STUDENT_ID]
-    public void lookUpStudent(String studentId) {
+    public void lookUpStudent(String studentId)
+    {
+        if (student == null) {
+            System.out.println("Student with ID " + studentId + " not found.");
+            return;
+        }
         for (Student student : schoolData.studentsList) {
             if (student.getStudentId().equals(studentId)) {
                 System.out.println("Student ID: " + student.getStudentId());
@@ -124,14 +135,9 @@ public class Commands {
         for (int i=0 ; i < schoolData.teachersList.size(); i++)
         {
             System.out.println("Teacher #" + (i+1));
-
             System.out.print("Teacher ID: " + schoolData.teachersList.get(i).getTeacherId());
-
             System.out.print("Teacher Name: " + schoolData.teachersList.get(i).getName());
-
             System.out.print("Teacher Salary: " + schoolData.teachersList.get(i).getSalary());
-
-
 
             System.out.println("--------------------\n");
         }
@@ -140,15 +146,16 @@ public class Commands {
     // LOOKUP TEACHER [TEACHER_ID]
     public void lookUpTeacher(String teacherId)
     {
+        if (teacher == null) {
+            System.out.println("Teacher with ID " + teacherId + " not found.");
+            return;
+        }
         for (Teacher teacher : schoolData.teachersList) {
             if (teacher.getTeacherId().equals(teacherId))
             {
                 System.out.print("Teacher with ID: " + teacher.getTeacherId());
-
                 System.out.print("Teacher Name: " + teacher.getName());
-
                 System.out.print("Teacher Salary: " + teacher.getSalary());
-
             }
 
         }
