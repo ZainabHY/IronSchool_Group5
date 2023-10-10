@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class SchoolData {
@@ -14,33 +15,47 @@ public class SchoolData {
     Scanner scanner = new Scanner(System.in);
 
     // TEACHERS
-    public void createTeachers()
-    {
+    public void createTeachers() {
         Teacher teacher;
         System.out.println("\n\u001B[33mLet's begin by Teachers\u001B[0m");
+
         // Asking user to enter num of teachers
-        System.out.println("How many teacher you want to create? ");
-        int teacherNum = scanner.nextInt();
-        scanner.nextLine();
+        System.out.println("How many teachers do you want to create? ");
+        int teacherNum;
+        while (true) {
+            try {
+                teacherNum = scanner.nextInt();
+                scanner.nextLine();
+                break;
+            } catch (InputMismatchException e) {
+                System.out.println("Invalid input. Please enter a valid number.");
+                scanner.nextLine(); // Clear the input buffer
+            }
+        }
 
         // Asking user to enter details of teachers
-        System.out.println("Now please provide me with Teachers details");
+        System.out.println("Now please provide me with Teachers' details");
         System.out.println("------------------------------------------");
 
-        // for loop to take teachers info
-        for (int i=0 ; i < teacherNum; i++)
-        {
-            System.out.println("Teacher #" + (i+1));
-
-//            System.out.print("Teacher ID: ");
-//            String teacherID = scanner.nextLine();
+        // for loop to take teachers' info
+        for (int i = 0; i < teacherNum; i++) {
+            System.out.println("Teacher #" + (i + 1));
 
             System.out.print("Teacher Name: ");
             String teacherName = scanner.nextLine();
 
-            System.out.print("Teacher Salary: ");
-            double teacherSalary = scanner.nextDouble();
-            scanner.nextLine();
+            double teacherSalary;
+            while (true) {
+                try {
+                    System.out.print("Teacher Salary: ");
+                    teacherSalary = scanner.nextDouble();
+                    scanner.nextLine();
+                    break;
+                } catch (InputMismatchException e) {
+                    System.out.println("Invalid input. Please enter a valid salary.");
+                    scanner.nextLine(); // Clear the input buffer
+                }
+            }
 
             teacher = new Teacher(teacherName, teacherSalary);
             teachersList.add(teacher);
@@ -50,73 +65,84 @@ public class SchoolData {
     }
 
     // COURSES
-    public void createCourses()
-    {
+    public void createCourses() {
         Course course;
 
         System.out.println("\n\u001B[33mLet's move to courses.. \u001B[0m\n");
 
         // Asking user to enter num of courses
-        System.out.println("How many courses you want to create? ");
-        int courseNum = scanner.nextInt();
-        scanner.nextLine();
+        System.out.println("How many courses do you want to create? ");
+        int courseNum;
+        while (true) {
+            try {
+                courseNum = scanner.nextInt();
+                scanner.nextLine();
+                break;
+            } catch (InputMismatchException e) {
+                System.out.println("Invalid input. Please enter a valid number.");
+                scanner.nextLine(); // Clear the input buffer
+            }
+        }
 
         // Asking user to enter details of courses
-        System.out.println("Now please provide me with Courses details");
+        System.out.println("Now please provide me with Courses' details");
+
         System.out.println("------------------------------------------");
 
-        // for loop to take courses info
-        for (int i=0 ; i < courseNum; i++)
-        {
-            System.out.println("Course #" + (i+1));
-
-//            System.out.print("Course ID: ");
-//            String courseID = scanner.nextLine();
+        // for loop to take courses' info
+        for (int i = 0; i < courseNum; i++) {
+            System.out.println("Course #" + (i + 1));
 
             System.out.print("Course Name: ");
             String courseName = scanner.nextLine();
 
-            System.out.print("Course Price: ");
-            double coursePrice = scanner.nextDouble();
-            scanner.nextLine();
-
-//            System.out.print("Money Earned: ");
-//            double moneyEarned = scanner.nextDouble();
-//
-//            System.out.print("Teacher: ");
-//            Teacher teacher = scanner.nextLine();
+            double coursePrice;
+            while (true) {
+                try {
+                    System.out.print("Course Price: ");
+                    coursePrice = scanner.nextDouble();
+                    scanner.nextLine();
+                    break;
+                } catch (InputMismatchException e) {
+                    System.out.println("Invalid input. Please enter a valid price.");
+                    scanner.nextLine(); // Clear the input buffer
+                }
+            }
 
             course = new Course(courseName, coursePrice);
             coursesList.add(course);
 
             System.out.println("--------------------\n");
-
         }
     }
 
     // STUDENTS
-    public void createStudents()
-    {
+    public void createStudents() {
         Student student;
 
         System.out.println("\n\u001B[33mLet's move to Students..\u001B[0m \n");
 
         // Asking user to enter num of students
-        System.out.println("How many students you want to create? ");
-        int studentNum = scanner.nextInt();
-        scanner.nextLine();
+        System.out.println("How many students do you want to create? ");
+        int studentNum;
+        while (true) {
+            try {
+                studentNum = scanner.nextInt();
+                scanner.nextLine();
+                break;
+            } catch (InputMismatchException e) {
+                System.out.println("Invalid input. Please enter a valid number.");
+                scanner.nextLine(); // Clear the input buffer
+            }
+        }
 
         // Asking user to enter details of students
-        System.out.println("Now please provide me with Courses details");
+        System.out.println("Now please provide me with Students' details");
         System.out.println("------------------------------------------");
 
-        // for loop to take students info
-        for (int i=0 ; i < studentNum; i++)
-        {
-            System.out.println("Student #" + (i+1));
-
-//            System.out.print("Student ID: ");
-//            String studentID = scanner.nextLine();
+        // for loop to take students' info
+        for (int i = 0; i < studentNum; i++) {
+            System.out.println("Student #" + (i + 1));
 
             System.out.print("Student Name: ");
             String studentName = scanner.nextLine();
@@ -127,19 +153,14 @@ public class SchoolData {
             System.out.print("Student Email: ");
             String studentEmail = scanner.nextLine();
 
-//            System.out.print("Course: ");
-//            Course course = scanner.nextLine();
-
             student = new Student(studentName, studentAddress, studentEmail);
             studentsList.add(student);
 
             System.out.println("--------------------\n");
-
         }
     }
 
-    public void teachersMenu()
-    {
+    public void teachersMenu() {
         boolean returnToMainMenu = false;
         int choice;
 
@@ -154,24 +175,24 @@ public class SchoolData {
             System.out.println("3. LOOKUP TEACHER [TEACHER_ID]");
             System.out.println("4. Return to main menu");
 
-            System.out.print("\nYour  choice: ");
+            System.out.print("\nYour choice: ");
 
             // Taking user's choice
             while (true) {
                 try {
                     choice = Integer.parseInt(scanner.nextLine());
-                    if (choice < 1 || choice > 4)
+                    if (choice < 1 || choice > 4) {
                         throw new NumberFormatException();
+                    }
                     break;
                 } catch (NumberFormatException e) {
-                    System.out.print("You should enter from 1 to 4. Please try again: ");
+                    System.out.print("Invalid input. Please enter a number from 1 to 4: ");
                 }
             } // End of taking user's choice
 
-            switch (choice)
-            {
+            switch (choice) {
                 case 1:
-                    System.out.println(">> To assign new teacher, you shall provide me with IDs of teacher and course");
+                    System.out.println(">> To assign a new teacher, you need to provide the IDs of the teacher and course");
                     teacherIds();
                     System.out.print("Teacher ID: ");
                     String teacherIdAssign = scanner.nextLine();
@@ -182,11 +203,12 @@ public class SchoolData {
                     commands.assignTeacher(teacherIdAssign, courseIdAssign);
                     break;
 
-                case 2: commands.showTeachers();
+                case 2:
+                    commands.showTeachers();
                     break;
 
                 case 3:
-                    System.out.println(">> To look up a teacher, please provide me with the teacher's ID");
+                    System.out.println(">> To look up a teacher, please provide the teacher's ID");
                     teacherIds();
                     System.out.print("Teacher ID: ");
                     String teacherIdLookUp = scanner.nextLine();
@@ -196,7 +218,6 @@ public class SchoolData {
                 case 4:
                     returnToMainMenu = true;
                     break;
-
             }
         }
 
