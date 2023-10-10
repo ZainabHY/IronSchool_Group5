@@ -7,7 +7,6 @@ public class StartIronSchool {
 
         System.out.println("\u001B[34m>>>> Welcome to Iron School <<<<\u001B[0m");
 
-
         // Asking user to enter the school name
         System.out.print("\nPlease provide me with the name of the school: ");
         String schoolName = scanner.nextLine();
@@ -15,15 +14,25 @@ public class StartIronSchool {
         SchoolData schoolData = new SchoolData();
 
         // TEACHERS -> Calling teachers method
-        schoolData.createTeachers();
+        try {
+            schoolData.createTeachers();
+        } catch (Exception e) {
+            System.out.println("An error occurred while creating teachers: " + e.getMessage());
+        }
 
         // COURSES -> Calling courses method
-        schoolData.createCourses();
+        try {
+            schoolData.createCourses();
+        } catch (Exception e) {
+            System.out.println("An error occurred while creating courses: " + e.getMessage());
+        }
 
         // STUDENTS -> Calling students method
-        schoolData.createStudents();
-
-        ////////
+        try {
+            schoolData.createStudents();
+        } catch (Exception e) {
+            System.out.println("An error occurred while creating students: " + e.getMessage());
+        }
 
         System.out.println("-------------------------------");
         // Displaying Menu
@@ -31,9 +40,7 @@ public class StartIronSchool {
         boolean exit = false;
         int choice;
 
-        while (!exit)
-        {
-//            System.out.println(">> Please choose one of the commands to execute:");
+        while (!exit) {
             System.out.println("\u001B[33m>> Please choose one of the list to view its commands\u001B[0m");
             System.out.println("----------------------------------------------------");
 
@@ -43,25 +50,21 @@ public class StartIronSchool {
             System.out.println("4. Financial Summary");
             System.out.println("5. Exit");
 
-            System.out.print("\nYour  choice: ");
+            System.out.print("\nYour choice: ");
 
             // Taking user's choice
-            while (true)
-            {
-                try{
+            while (true) {
+                try {
                     choice = Integer.parseInt(scanner.nextLine());
                     if (choice < 1 || choice > 5)
                         throw new NumberFormatException();
                     break;
-                }
-                catch (NumberFormatException e)
-                {
+                } catch (NumberFormatException e) {
                     System.out.print("You should enter from 1 to 5. Please try again: ");
                 }
             } // End of taking user's choice
 
-            switch (choice)
-            {
+            switch (choice) {
                 case 1:
                     schoolData.teachersMenu();
                     break;
@@ -76,11 +79,9 @@ public class StartIronSchool {
                     break;
                 case 5:
                     exit = true;
-                    System.out.println("\n\u001B[35mThank you for using the Iron School !\u001B[0m");
+                    System.out.println("\n\u001B[35mThank you for using Iron School!\u001B[0m");
                     break;
             }
         }
-
-
     }
 }
