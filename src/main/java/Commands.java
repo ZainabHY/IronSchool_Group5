@@ -292,7 +292,7 @@ public class Commands {
     }
 
     // Helper methods to find students, teachers, and courses
-    private Student findStudentById(String studentId) {
+    public Student findStudentById(String studentId) {
         for (Student student : schoolData.getStudents()) {
             if (student.getStudentId().equals(studentId)) {
                 return student;
@@ -301,7 +301,7 @@ public class Commands {
         return null; // Return null if student is not found
     }
 
-    private Teacher findTeacherById(String teacherId) {
+    public Teacher findTeacherById(String teacherId) {
         for (Teacher teacher : teachers) {
             if (teacher.getTeacherId().equals(teacherId)) {
                 return teacher;
@@ -310,7 +310,7 @@ public class Commands {
         return null; // Return null if teacher is not found
     }
 
-    private Course findCourseById(String courseId) {
+    public Course findCourseById(String courseId) {
         for (Course course : schoolData.getCourses()) {
             if (course.getCourseId().equals(courseId)) {
                 return course;
