@@ -1,52 +1,68 @@
-import static org.junit.jupiter.api.Assertions.*;
+import javax.swing.plaf.IconUIResource;
+import java.util.Random;
+import java.util.UUID;
 
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+public class Course {
+//    SchoolData schoolData = null;
 
-public class CourseTest {
-    SchoolData schoolData;
-    Course course1;
-    Course course2;
+    private String courseId;
+    private String name;
+    private double price;
+    private double moneyEarned;
+    private Teacher teacher;
 
+    public Course(String name, double price) {
+        this.courseId = generateCourseID(); // Auto-Generate course Id
+        this.name = name;
+        this.price = price;
+        this.moneyEarned = 0.0;
+        this.teacher = null;
+    }
+    //--------\\
 
-    @BeforeEach
-    void setUp()
-    {
-        schoolData = new SchoolData();
-        course1 = new Course("Java", 300.0);
-        course2 = new Course("Science", 150.0);
-        schoolData.coursesList.add(course1);
-        schoolData.coursesList.add(course2);
+    // to Auto-Generate course Id \\
+    private String generateCourseID(){
+        Random random = new Random();
+        int randomNumber = random.nextInt(10000); // Generate a random number between 0 and 9999
+        return 'C' + String.format("%04d", randomNumber);
+
     }
 
 
-    @Test
-    public void testGenerateCourseId() {
-        String courseId1 = course1.getCourseId();
-        String courseId2 = course2.getCourseId();
-
-        Assertions.assertNotNull(courseId1);
-        Assertions.assertNotNull(courseId2);
-        Assertions.assertTrue(courseId1.startsWith("C"));
-        Assertions.assertTrue(courseId2.startsWith("C"));
-        Assertions.assertNotEquals(courseId1, courseId2);
+    public void setTeacher(Teacher teacher) {
+        this.teacher = teacher;
     }
 
-    @Test
-    public void testFindCourseById() {
-        Course foundCourse = course1.findCourseById(course1.getCourseId(), schoolData);
-
-        Assertions.assertNotNull(foundCourse);
-        Assertions.assertEquals(course1, foundCourse);
+    public String getCourseId() {
+        return courseId;
     }
 
-    @Test
-    public void testAssignTeacher() {
-        Teacher teacher = new Teacher("Raneem Rashid", 10000.0);
-
-        course1.assignTeacher(teacher);
-
-        Assertions.assertEquals(teacher, course1.getTeacher());
+    public String getName() {
+        return name;
     }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public double getMoneyEarned() {
+        return moneyEarned;
+    }
+
+    public Teacher getTeacher() {
+        return teacher;
+    }
+
+    public void setMoneyEarned(double moneyEarned) {
+        this.moneyEarned = moneyEarned;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
 }
