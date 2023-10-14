@@ -42,21 +42,9 @@ public class Teacher {
     }
 
     private String generateId() {
-//        UUID ID = UUID.randomUUID();
-//        return ID.toString();
-
         Random random = new Random();
         int randomNumber = random.nextInt(10000); // Generate a random number between 0 and 9999
         return 'T' + String.format("%04d", randomNumber);
-    }
-
-    public Teacher findTeacherById(String teacherId, SchoolData schoolData) {
-        for (Teacher teacher : schoolData.teachersList) {
-            if (teacher.getTeacherId().equals(teacherId)) {
-                return teacher;
-            }
-        }
-        return null;
     }
 
 }
