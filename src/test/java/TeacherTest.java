@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 public class TeacherTest {
 
     SchoolData schoolData;
+    Commands command;
     Teacher teacher1;
     Teacher teacher2;
 
@@ -15,9 +16,10 @@ public class TeacherTest {
     void setUp()
     {
         schoolData = new SchoolData();
+        command = new Commands(schoolData);
+
         teacher1 = new Teacher("Raneem Rashid", 15000.0);
         teacher2 = new Teacher("Abdullah Khalid", 10000.0);
-
 
         schoolData.teachersList.add(teacher1);
         schoolData.teachersList.add(teacher2);
@@ -34,7 +36,7 @@ public class TeacherTest {
 
     @Test
     public void testFindTeacherById() {
-        Teacher foundTeacher = teacher2.findTeacherById(teacher2.getTeacherId(), schoolData);
+        Teacher foundTeacher = command.findTeacherById(teacher2.getTeacherId());
 
         Assertions.assertNotNull(foundTeacher);
         Assertions.assertEquals(teacher2, foundTeacher);
