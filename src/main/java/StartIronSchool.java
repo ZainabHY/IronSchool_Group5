@@ -12,6 +12,9 @@ public class StartIronSchool {
         String schoolName = scanner.nextLine();
 
         SchoolData schoolData = new SchoolData();
+        Commands command = new Commands(schoolData);
+
+        schoolData.setCommands(command);
 
         // TEACHERS -> Calling teachers method
         try {
@@ -79,7 +82,7 @@ public class StartIronSchool {
                     break;
                 case 5:
                     exit = true;
-                    System.out.println("\n\u001B[35mThank you for using Iron School!\u001B[0m");
+                    System.out.println("\n\u001B[35mThank you for using the Iron School!\u001B[0m");
                     break;
             }
         }
