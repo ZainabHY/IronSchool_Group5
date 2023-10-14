@@ -6,6 +6,8 @@ import org.junit.jupiter.api.Test;
 
 public class StudentTest {
     SchoolData schoolData;
+
+    Commands command;
     Student student1;
     Student student2;
 
@@ -13,6 +15,8 @@ public class StudentTest {
     void setUp()
     {
         schoolData = new SchoolData();
+        command = new Commands(schoolData);
+
         student1 = new Student("Dana Sami", "Dammam", "dana.sami@gmail.com");
         student2 = new Student("Salem Fahad", "Khobar", "salem.fahad@gmail.com");
         schoolData.studentsList.add(student1);
@@ -33,7 +37,7 @@ public class StudentTest {
 
     @Test
     public void testFindStudentById() {
-        Student foundStudent = student1.findStudentById(student1.getStudentId(), schoolData);
+        Student foundStudent = command.findStudentById(student1.getStudentId());
 
         Assertions.assertNotNull(foundStudent);
         Assertions.assertEquals(student1, foundStudent);
