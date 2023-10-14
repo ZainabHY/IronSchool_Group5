@@ -1,8 +1,10 @@
 import java.util.ArrayList;
 import java.util.InputMismatchException;
+import java.util.List;
 import java.util.Scanner;
 
 public class SchoolData {
+
     // This class holds methods for details for all of:
     // Teachers , Students , Courses
 
@@ -10,9 +12,17 @@ public class SchoolData {
     public ArrayList<Course> coursesList =  new ArrayList<>();
     public ArrayList<Student> studentsList =  new ArrayList<>();
 
-    Commands commands;
+    private Commands commands;
+    public void setCommands(Commands commands) {
+        this.commands = commands;
+    }
 
     Scanner scanner = new Scanner(System.in);
+
+//    public SchoolData(Commands commands)
+//    {
+//        this.commands = commands;
+//    }
 
     // TEACHERS
     public void createTeachers() {
@@ -192,7 +202,8 @@ public class SchoolData {
 
             switch (choice) {
                 case 1:
-                    System.out.println(">> To assign a new teacher, you need to provide the IDs of the teacher and course");
+                    System.out.println("\n\u001B[33m>> To assign a new teacher, you need to provide the IDs of the teacher and course\u001B[0m");
+
                     teacherIds();
                     System.out.print("Teacher ID: ");
                     String teacherIdAssign = scanner.nextLine();
@@ -208,7 +219,7 @@ public class SchoolData {
                     break;
 
                 case 3:
-                    System.out.println(">> To look up a teacher, please provide the teacher's ID");
+                    System.out.println("\n\u001B[33m>> To look up a teacher, please provide the teacher's ID\u001B[0m");
                     teacherIds();
                     System.out.print("Teacher ID: ");
                     String teacherIdLookUp = scanner.nextLine();
@@ -255,7 +266,8 @@ public class SchoolData {
             switch (choice)
             {
                 case 1:
-                    System.out.println(">> To enroll new student, please provide me with IDs of student and course");
+                    System.out.println("\n\u001B[33m>> To enroll new student, please provide me with IDs of student and course\u001B[0m");
+
                     studentIds();
                     System.out.print("Student ID: ");
                     String studentIdEnroll = scanner.nextLine();
@@ -270,7 +282,7 @@ public class SchoolData {
                     break;
 
                 case 3:
-                    System.out.println(">> To look up a student, please provide me with the student's ID");
+                    System.out.println("\n\u001B[33m>> To look up a student, please provide me with the student's ID\u001B[0m");
                     studentIds();
                     System.out.print("Student ID: ");
                     String studentIdLookUp = scanner.nextLine();
@@ -319,7 +331,8 @@ public class SchoolData {
                     break;
 
                 case 2:
-                    System.out.println(">> To look up a course, please provide me with the course's ID");
+                    System.out.println("\n\u001B[33m>> To look up a course, please provide me with the course's ID\u001B[0m");
+
                     courseIds();
                     System.out.print("Course ID: ");
                     String courseIdLookUp = scanner.nextLine();
@@ -327,7 +340,8 @@ public class SchoolData {
                     break;
 
                 case 3:
-                    System.out.println(">> To show student by course ID, please provide me with the course ID");
+                    System.out.println("\n\u001B[33m>> To show student by course ID, please provide me with the course ID\u001B[0m");
+
                     courseIds();
                     System.out.print("Course ID: ");
                     String studentShow_byCourseID = scanner.nextLine();
@@ -374,11 +388,20 @@ public class SchoolData {
 
             switch (choice)
             {
-                case 1: commands.showProfit();
+                case 1:
+                    System.out.print("\n\u001B[36mProfit gained from Iron School is: \u001B[0m");
+                    System.out.print(commands.showProfit());
+                    System.out.println();
                     break;
-                case 2: commands.showMoneyEarned();
+
+                case 2: System.out.print("\n\u001B[36mMoney earned from Iron School is: \u001B[0m");
+                    System.out.print(commands.showMoneyEarned());
+                    System.out.println();
                     break;
-                case 3: commands.showMoneySpent();
+
+                case 3: System.out.print("\n\u001B[36mMoney spent in Iron School is:\u001B[0m ");
+                    System.out.print(commands.showMoneySpent());
+                    System.out.println();
                     break;
                 case 4:
                     returnToMainMenu = true;
@@ -430,4 +453,13 @@ public class SchoolData {
         }
     }
 
+    public List<Teacher> getTeachers() {
+        return teachersList;
+    }
+    public List<Student> getStudents() {
+        return studentsList;
+    }
+    public List<Course> getCourses() {
+        return coursesList;
+    }
 }
