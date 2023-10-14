@@ -1,18 +1,30 @@
-
+import java.util.List;
 // This class holds all commands required + bonus commands
 public class Commands {
 
-    Teacher teacher = null;
-    Course course = null;
-    Student student = null;
+    //    Teacher teacher;
+//    Course course;
+//    Student student;
+    SchoolData schoolData;
 
-    SchoolData schoolData = null;
+    private List<Teacher> teachers;
+    private List<Course> courses;
+    private List<Student> students;
+
+    public Commands(SchoolData schoolData)
+    {
+        this.schoolData = schoolData;
+        this.teachers = schoolData.getTeachers();
+        this.courses = schoolData.getCourses();
+        this.students = schoolData.getStudents();
+    }
+
 
     // ENROLL [STUDENT_ID] [COURSE_ID]
     public void enrollStudent(String studentId, String courseId)
     {
-        Student findStudent = student.findStudentById(studentId, schoolData);
-        Course findCourse = course.findCourseById(courseId, schoolData);
+        Student findStudent = findStudentById(studentId);
+        Course findCourse = findCourseById(courseId);
 
         if (findStudent == null) {
             System.out.println("Student with ID " + studentId + " not found.");
@@ -25,12 +37,12 @@ public class Commands {
         }
 
         if (findStudent.getCourse() != null) {
-            System.out.println("Student " + findStudent.getName() + " is already enrolled in a course.");
+            System.out.println("\nStudent " + findStudent.getName() + " is already enrolled in a course.");
             return;
         }
 
         findStudent.setCourse(findCourse);
-        System.out.println("Course " + findCourse.getName() + " assigned to Student " + findStudent.getName());
+        System.out.println("\n\u001B[32mCourse " + findCourse.getName() + " assigned to Student " + findStudent.getName() +"\u001B[0m");
 
         // Update Earned Money
         findCourse.setMoneyEarned((findCourse.getMoneyEarned())+ findCourse.getPrice());
@@ -38,8 +50,8 @@ public class Commands {
 
     // ASSIGN [TEACHER_ID] [COURSE_ID]
     public void assignTeacher(String teacherId, String courseId) {
-        Teacher findTeacher = teacher.findTeacherById(teacherId , schoolData); // teacher.findTeacherById(teacherId)
-        Course findCourse = course.findCourseById(courseId, schoolData); // course.findCourseById(courseId)
+        Teacher findTeacher = findTeacherById(teacherId); // teacher.findTeacherById(teacherId)
+        Course findCourse = findCourseById(courseId); // course.findCourseById(courseId)
 
         if (findTeacher == null) {
             System.out.println("Teacher with ID " + teacherId + " not found.");
@@ -52,60 +64,88 @@ public class Commands {
         }
 
         findCourse.setTeacher(findTeacher);
-        System.out.println("Teacher " + findTeacher.getName() + " assigned to Course " + findCourse.getName());
+        System.out.println("\n\u001B[32mTeacher " + findTeacher.getName() + " assigned to Course " + findCourse.getName() + "\u001B[0m");
     }
 
     // SHOW COURSES
     public void showCourses()
     {
+        System.out.println("\n\u001B[36mList of Courses:\u001B[0m");
+
+        Course course;
+        Teacher assignedTeacher;
         for (int i=0 ; i < schoolData.coursesList.size(); i++)
         {
-            System.out.println("Course #" + (i+1));
+            course = schoolData.coursesList.get(i);
+            System.out.println("\u001B[32mCourse #" + (i+1) + "\u001B[0m");
+            System.out.println("Course ID: " + course.getCourseId());
+            System.out.println("Course Name: " + course.getName());
+            System.out.println("Course Price: " + course.getPrice());
+            System.out.println("Money Earned: " + course.getMoneyEarned());
 
-            System.out.print("Course ID: " + course.getCourseId());
-
-            System.out.print("Course Name: " + course.getName());
-
-            System.out.print("Course Price: " + course.getPrice());
-
-            System.out.print("Money Earned: " + course.getMoneyEarned());
-
-            System.out.print("Teacher: " + course.getTeacher());
+            assignedTeacher = course.getTeacher();
+            if (assignedTeacher != null) {
+                System.out.println("Assigned Teacher: " + assignedTeacher.getName());
+            } else {
+                System.out.println("Assigned Teacher: No assigned teacher for this course");
+            }
 
             System.out.println("--------------------\n");
         }
     }
 
     // LOOKUP COURSE [COURSE_ID]
-    public void lookUpCourse(String courseId)
-    {
-        if (course == null) {
+    public void lookUpCourse(String courseId) {
+        Course foundCourse = null;
+        for (Course course : schoolData.getCourses()) {
+            if (course.getCourseId().equals(courseId)) {
+                foundCourse = course;
+                break;
+            }
+        }
+
+        if (foundCourse == null) {
             System.out.println("Course with ID " + courseId + " not found.");
             return;
         }
-        for (Course course : schoolData.coursesList) {
-            if (course.getCourseId().equals(courseId))
-            {
-                System.out.print("Course with ID: " + course.getCourseId());
-                System.out.print("Course Name: " + course.getName());
-                System.out.print("Course Price: " + course.getPrice());
-                System.out.print("Money Earned: " + course.getMoneyEarned());
-                System.out.print("Teacher: " + course.getTeacher());
-            }
+
+
+        System.out.println("\nCourse with ID: " + foundCourse.getCourseId());
+        System.out.println("Course Name: " + foundCourse.getName());
+        System.out.println("Course Price: " + foundCourse.getPrice());
+        System.out.println("Money Earned: " + foundCourse.getMoneyEarned());
+
+        Teacher assignedTeacher = foundCourse.getTeacher();
+        if (assignedTeacher != null) {
+            System.out.println("Assigned Teacher: " + assignedTeacher.getName());
+        } else {
+            System.out.println("Assigned Teacher: No assigned teacher for this course");
         }
     }
 
     // SHOW STUDENTS
     public void showStudents() {
-        System.out.println("List of Students:");
+        System.out.println("\n\u001B[36mList of Students:\u001B[0m");
+
+        Student student;
+        Course courseEnrolled;
+
         for (int i = 0; i < schoolData.studentsList.size(); i++) {
-            Student student = schoolData.studentsList.get(i);
-            System.out.println("Student #" + (i + 1));
+            student = schoolData.studentsList.get(i);
+            System.out.println("\u001B[32mStudent #" + (i+1) + "\u001B[0m");
+
             System.out.println("Student ID: " + student.getStudentId());
             System.out.println("Name: " + student.getName());
             System.out.println("Address: " + student.getAddress());
             System.out.println("Email: " + student.getEmail());
-            System.out.println("Enrolled in Course: " + (student.getCourse() != null ? student.getCourse().getName() : "Not enrolled in any course"));
+
+            courseEnrolled = student.getCourse();
+            if (courseEnrolled != null) {
+                System.out.println("Enrolled in Course: " + courseEnrolled.getName());
+            } else {
+                System.out.println("Enrolled in Course: Not enrolled in any course");
+            }
+
             System.out.println("--------------------\n");
         }
     }
@@ -114,30 +154,46 @@ public class Commands {
     // LOOKUP STUDENT [STUDENT_ID]
     public void lookUpStudent(String studentId)
     {
-        if (student == null) {
+        Student foundStudent = null;
+        for(Student student : schoolData.getStudents())
+        {
+            if (student.getStudentId().equals(studentId))
+            {
+                foundStudent = student;
+                break;
+            }
+        }
+
+        if (foundStudent == null) {
             System.out.println("Student with ID " + studentId + " not found.");
             return;
         }
-        for (Student student : schoolData.studentsList) {
-            if (student.getStudentId().equals(studentId)) {
-                System.out.println("Student ID: " + student.getStudentId());
-                System.out.println("Name: " + student.getName());
-                System.out.println("Address: " + student.getAddress());
-                System.out.println("Email: " + student.getEmail());
-                System.out.println("Enrolled in Course: " + (student.getCourse() != null ? student.getCourse().getName() : "Not enrolled in any course"));
-            }
+
+        System.out.println("\nStudent ID: " + foundStudent.getStudentId());
+        System.out.println("Name: " + foundStudent.getName());
+        System.out.println("Address: " + foundStudent.getAddress());
+        System.out.println("Email: " + foundStudent.getEmail());
+
+        Course courseEnrolled = foundStudent.getCourse();
+        if (courseEnrolled != null) {
+            System.out.println("Enrolled in Course: " + courseEnrolled.getName());
+        } else {
+            System.out.println("Enrolled in Course: Not enrolled in any course");
         }
     }
 
     // SHOW TEACHERS
     public void showTeachers()
     {
+        System.out.println("\n\u001B[36mList of Teachers:\u001B[0m");
+
         for (int i=0 ; i < schoolData.teachersList.size(); i++)
         {
-            System.out.println("Teacher #" + (i+1));
-            System.out.print("Teacher ID: " + schoolData.teachersList.get(i).getTeacherId());
-            System.out.print("Teacher Name: " + schoolData.teachersList.get(i).getName());
-            System.out.print("Teacher Salary: " + schoolData.teachersList.get(i).getSalary());
+            System.out.println("\u001B[32mTeacher #" + (i+1) + "\u001B[0m");
+
+            System.out.println("Teacher ID: " + schoolData.teachersList.get(i).getTeacherId());
+            System.out.println("Teacher Name: " + schoolData.teachersList.get(i).getName());
+            System.out.println("Teacher Salary: " + schoolData.teachersList.get(i).getSalary());
 
             System.out.println("--------------------\n");
         }
@@ -146,19 +202,24 @@ public class Commands {
     // LOOKUP TEACHER [TEACHER_ID]
     public void lookUpTeacher(String teacherId)
     {
-        if (teacher == null) {
+        Teacher foundTeacher = null;
+        for(Teacher teacher : schoolData.getTeachers())
+        {
+            if (teacher.getTeacherId().equals(teacherId))
+            {
+                foundTeacher = teacher;
+                break;
+            }
+        }
+
+        if (foundTeacher == null) {
             System.out.println("Teacher with ID " + teacherId + " not found.");
             return;
         }
-        for (Teacher teacher : schoolData.teachersList) {
-            if (teacher.getTeacherId().equals(teacherId))
-            {
-                System.out.print("Teacher with ID: " + teacher.getTeacherId());
-                System.out.print("Teacher Name: " + teacher.getName());
-                System.out.print("Teacher Salary: " + teacher.getSalary());
-            }
 
-        }
+        System.out.println("\nTeacher with ID: " + foundTeacher.getTeacherId());
+        System.out.println("Teacher Name: " + foundTeacher.getName());
+        System.out.println("Teacher Salary: " + foundTeacher.getSalary());
     }
 
     // SHOW PROFIT
@@ -173,13 +234,14 @@ public class Commands {
     // SHOW STUDENTS [COURSE_ID]
     public void showStudentByCourseID(String courseId)
     {
-        System.out.println("Students enrolled in Course with ID " + courseId + ":");
+        System.out.println("\nStudents enrolled in Course with ID " + courseId + ":");
         boolean found = false;
         int count = 0 ;
         int num = 1;
-
+        Course stuCourse;
         for (Student student : schoolData.studentsList) {
-            if (student.getCourse().getCourseId().equals(courseId))
+            stuCourse = student.getCourse();
+            if (stuCourse != null && stuCourse.getCourseId().equals(courseId))
                 count++;
         }
 
@@ -187,7 +249,8 @@ public class Commands {
         System.out.println("-----------------------------------\n");
 
         for (Student student : schoolData.studentsList) {
-            if (student.getCourse().getCourseId().equals(courseId)) {
+            stuCourse = student.getCourse();
+            if (stuCourse != null && stuCourse.getCourseId().equals(courseId)) {
                 System.out.println("\u001B[32mStudent #" + (num++) + "\u001B[0m");
                 System.out.println("Student ID: " + student.getStudentId());
                 System.out.println("Student Name: " + student.getName());
@@ -226,6 +289,34 @@ public class Commands {
             }
         }
         return totalMoneySpent;
+    }
+
+    // Helper methods to find students, teachers, and courses
+    private Student findStudentById(String studentId) {
+        for (Student student : schoolData.getStudents()) {
+            if (student.getStudentId().equals(studentId)) {
+                return student;
+            }
+        }
+        return null; // Return null if student is not found
+    }
+
+    private Teacher findTeacherById(String teacherId) {
+        for (Teacher teacher : teachers) {
+            if (teacher.getTeacherId().equals(teacherId)) {
+                return teacher;
+            }
+        }
+        return null; // Return null if teacher is not found
+    }
+
+    private Course findCourseById(String courseId) {
+        for (Course course : schoolData.getCourses()) {
+            if (course.getCourseId().equals(courseId)) {
+                return course;
+            }
+        }
+        return null; // Return null if course is not found
     }
 
 }
