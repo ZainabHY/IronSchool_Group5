@@ -1,4 +1,6 @@
+import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.UUID;
 
 public class Student {
 //    SchoolData schoolData = null;
@@ -19,7 +21,9 @@ public class Student {
     }
 
     private String generateStudentId() {
-        return "stu" + counter.getAndIncrement();
+        Random random = new Random();
+        int randomNumber = random.nextInt(10000); // Generate a random number between 0 and 9999
+        return "stu" + String.format("%04d", randomNumber);
     }
 
 
@@ -58,15 +62,6 @@ public class Student {
 
     public void setCourse(Course course) {
         this.course = course;
-    }
-
-    public Student findStudentById(String studentId, SchoolData schoolData) {
-        for (Student student : schoolData.studentsList) {
-            if (student.getStudentId().equals(studentId)) {
-                return student;
-            }
-        }
-        return null;
     }
 
 }
